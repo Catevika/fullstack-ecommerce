@@ -1,5 +1,5 @@
 import express, { json, urlencoded } from 'express';
-import productsRouter from './routes/products/index.ts';
+import productsRouter from './routes/products';
 
 const port = 3000;
 
