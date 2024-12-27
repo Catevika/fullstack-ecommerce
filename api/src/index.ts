@@ -1,15 +1,16 @@
-import express from 'express';
+import express, { json, urlencoded } from 'express';
 import productsRouter from './routes/products/index.ts';
 
 const port = 3000;
 
 const app = express();
 
-app.get('/', (_req, res) => {
-  res.send('Hello World 123');
-});
+app.use(json());
+app.use(urlencoded({ extended: false }));
 
-// products endpoints
+// app.get('/', (_req, res) => {
+//   res.send('Hello World 123');
+// });
 
 app.use('/products', productsRouter);
 
