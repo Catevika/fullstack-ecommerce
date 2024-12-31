@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { Request, Response } from 'express';
-import { db } from '../../db/index';
-import { productsTable } from '../../db/schema/productsSchema';
+import { db } from '../../db/index.js';
+import { productsTable } from '../../db/schema/productsSchema.js';
 export async function listProducts(_req: Request, res: Response) {
   try {
     const products = await db.select().from(productsTable);
