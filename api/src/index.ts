@@ -1,4 +1,5 @@
 import express, { json, urlencoded } from 'express';
+import authRoutes from './routes/auth';
 import productsRouter from './routes/products';
 
 const port = 3000;
@@ -13,6 +14,7 @@ app.use(urlencoded({ extended: false }));
 // });
 
 app.use('/products', productsRouter);
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
   console.log('Server is running on port', port);
