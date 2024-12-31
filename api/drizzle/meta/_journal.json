@@ -15,6 +15,13 @@
       "when": 1735577216193,
       "tag": "0001_perfect_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735661399496,
+      "tag": "0002_early_senator_kelly",
+      "breakpoints": true
     }
   ]
 }
