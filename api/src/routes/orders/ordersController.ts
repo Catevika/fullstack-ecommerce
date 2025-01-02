@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm/expressions.js';
+import { eq } from 'drizzle-orm';
 import { Request, Response } from 'express';
 import { db } from '../../db/index.js';
 import { orderItemsTable, ordersTable } from '../../db/schema/ordersSchema.js';
