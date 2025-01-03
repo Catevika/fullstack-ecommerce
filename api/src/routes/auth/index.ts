@@ -44,9 +44,9 @@ router.post("/login", validateData(loginSchema), async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: "30d" });
+    const token = generateUserToken(user);
 
-    const userWithoutPassword = { ...user, password: undefined };
+    const userWithoutPassword = { ...user, password: undefined, token };
 
     res.status(200).json({ token: token, user: userWithoutPassword });
 
