@@ -1,8 +1,10 @@
-import products from '@/assets/products.json';
+import { listProducts } from '@/api/products';
 import ProductListItem from '@/components/ProductListItem';
+import { Text } from '@/components/ui/text';
 import "@/global.css";
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { Dimensions, FlatList, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Dimensions, FlatList, useWindowDimensions } from 'react-native';
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
@@ -22,9 +24,22 @@ export default function HomeScreen() {
     return () => subscription.remove();
   }, [width]);
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['products'],
+    queryFn: listProducts,
+  });
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch Products</Text>;
+  }
+
   return (
     <FlatList
-      data={products}
+      data={data}
       columnWrapperClassName='gap-2'
       contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
       key={numColumns}
