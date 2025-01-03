@@ -8,13 +8,20 @@ import { validateData } from '../../middlewares/validationMiddleware.js';
 
 const router = Router();
 
+const generateUserToken = (user: any) => {
+  return jwt.sign({ userId: user.id, role: user.role }, 'your-secret', {
+    expiresIn: '30d',
+  });
+};
+
 router.post("/register", validateData(createUserSchema), async (req, res) => {
   try {
     const data = req.cleanBody;
     data.password = bcrypt.hashSync(data.password, 10);
     const [user] = await db.insert(usersTable).values(data).returning();
     const { password, ...userWithoutPassword } = user;
-    res.status(201).json({ user: userWithoutPassword });
+    const token = generateUserToken(user);
+    res.status(201).json({ user: userWithoutPassword, token });
   } catch (error) {
     res.status(500).send("Something went wrong");
   };
