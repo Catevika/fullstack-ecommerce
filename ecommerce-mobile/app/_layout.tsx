@@ -3,7 +3,7 @@ import { Text } from '@/components/ui/text';
 import { useCart } from '@/store/cartStore';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
-import { ShoppingCart } from 'lucide-react-native';
+import { ShoppingCart, User } from 'lucide-react-native';
 import { Pressable } from 'react-native';
 
 const queryClient = new QueryClient();
@@ -18,6 +18,11 @@ export default function RootLayout() {
             <Pressable className='flex-row items-center gap-2 mr-4' onPressIn={() => { router.push('/cart'); }}>
               <ShoppingCart color={'black'} />
               <Text>{cartItemsNum}</Text>
+            </Pressable>
+          ),
+          headerLeft: () => (
+            <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
+              <User color={'black'} />
             </Pressable>
           ),
           headerTitleAlign: 'center',
