@@ -16,3 +16,15 @@ export type CartState = {
   addProduct: (product: Product) => void;
   resetCart: () => void;
 };
+
+export type User = {
+  id: number;
+  email: string;
+};
+
+export type AuthState = {
+  user: User | null;
+  token: string | null;
+  setUser: (user: User) => void;
+  setToken: (token: string) => void;
+};

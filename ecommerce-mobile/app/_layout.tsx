@@ -1,5 +1,6 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { Text } from '@/components/ui/text';
+import { useAuth } from '@/store/authStore';
 import { useCart } from '@/store/cartStore';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
@@ -9,6 +10,7 @@ import { Pressable } from 'react-native';
 const queryClient = new QueryClient();
 export default function RootLayout() {
   const cartItemsNum = useCart((state) => state.items.length);
+  const isLoggedIn = useAuth(s => !!s.token);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -20,14 +22,16 @@ export default function RootLayout() {
               <Text>{cartItemsNum}</Text>
             </Pressable>
           ),
-          headerLeft: () => (
-            <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
-              <User color={'black'} />
-            </Pressable>
-          ),
           headerTitleAlign: 'center',
         }}>
-          <Stack.Screen name="index" options={{ title: 'Shop' }} />
+          <Stack.Screen name="index" options={{
+            title: 'Shop',
+            headerLeft: () => !isLoggedIn && (
+              <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
+                <User color={'black'} />
+              </Pressable>
+            )
+          }} />
           <Stack.Screen name="product/[id]" options={{ title: 'Product' }} />
           <Stack.Screen name="cart" options={{ title: 'Cart' }} />
         </Stack>
