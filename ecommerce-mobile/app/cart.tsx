@@ -16,7 +16,7 @@ export default function CartScreen() {
     mutationFn: () => createOrder(items.map((item) => ({
       productId: item.product.id,
       quantity: item.quantity,
-      price: item.product.price, // MANAGE FROM SERVER SIDE
+      price: item.product.price, // MANAGED FROM SERVER SIDE
     }))),
     onSuccess: (data) => {
       console.log(data);
@@ -38,7 +38,7 @@ export default function CartScreen() {
     <FlatList
       ListHeaderComponent={() => (
         <Link dismissTo href="/" asChild>
-          <Button variant='outline'>
+          <Button variant='outline' className='mb-4'>
             <ButtonText>Continue shopping</ButtonText>
           </Button>
         </Link>
@@ -56,9 +56,15 @@ export default function CartScreen() {
         </HStack>
       )}
       ListFooterComponent={() => (
-        <Button onPress={onCheckout}>
-          <ButtonText>Checkout</ButtonText>
-        </Button>
+        <VStack space="sm">
+          <HStack className='mx-auto mb-4'>
+            <Text>Total: </Text>
+            <Text className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0)}</Text>
+          </HStack>
+          <Button onPress={onCheckout}>
+            <ButtonText>Checkout</ButtonText>
+          </Button>
+        </VStack>
       )}
     />
   );

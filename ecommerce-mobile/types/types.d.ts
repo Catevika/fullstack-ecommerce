@@ -31,6 +31,27 @@ export type User = {
 export type AuthState = {
   user: User | null;
   token: string | null;
-  setUser: (user: User) => void;
-  setToken: (token: string) => void;
+  setUser: (user: User | null) => void;
+  setToken: (token: string | null) => void;
+};
+
+export type Order = {
+  id: number;
+  createdAt: Date;
+  status: string;
+  userId: number;
+};
+
+export type MergedOrder = {
+  items: ({
+    id: number;
+    orderId: number;
+    price: number;
+    productId: number;
+    quantity: number;
+  } | null)[];
+  id: number;
+  createdAt: Date;
+  status: string;
+  userId: number;
 };
