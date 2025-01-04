@@ -11,6 +11,12 @@ export type CartItem = {
   quantity: number;
 };
 
+export type OrderItem = {
+  productId: number;
+  quantity: number;
+  price: number;
+};
+
 export type CartState = {
   items: CartItem[];
   addProduct: (product: Product) => void;
