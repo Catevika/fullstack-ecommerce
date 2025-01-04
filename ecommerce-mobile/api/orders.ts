@@ -23,6 +23,50 @@ export async function createOrder(items: OrderItem[]) {
     throw new Error('Failed to create order');
   }
   const data = await res.json();
-  console.log(data);
+  return data;
+}
+
+export async function listOrders() {
+  const token = useAuth.getState().token;
+
+  if (!token) {
+    throw new Error('Something went wrong when logging in');
+  }
+
+  const res = await fetch(`${API_URL}/orders`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch orders');
+  }
+
+  const data = res.json();
+
+  return data;
+}
+
+export async function fetchOrderById(id: number) {
+  const token = useAuth.getState().token;
+
+  if (!token) {
+    throw new Error('Something went wrong when logging in');
+  }
+
+  const res = await fetch(`${API_URL}/orders/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch order by id: ' + id);
+  }
+  const data = res.json();
   return data;
 }

@@ -42,16 +42,13 @@ export type Order = {
   userId: number;
 };
 
-export type MergedOrder = {
-  items: ({
-    id: number;
-    orderId: number;
-    price: number;
-    productId: number;
-    quantity: number;
-  } | null)[];
+export type ProductDetail = {
   id: number;
-  createdAt: Date;
-  status: string;
-  userId: number;
+  product: {
+    name: string;
+    description: string;
+    image: string;
+    price: number;
+  };
+  quantity: number;
 };
