@@ -23,15 +23,15 @@ export default function RootLayout() {
       headerTitleAlign: 'center',
       tabBarActiveTintColor: 'black',
       tabBarInactiveTintColor: 'gray',
+      tabBarStyle: {
+        paddingBottom: 5,
+        paddingTop: 5,
+        height: 60,
+        display: 'flex',
+        alignItems: 'center',
+      }
     }}>
       <Tabs.Screen name="index" options={{
-        headerRight: () => (
-          <Pressable className='flex-row items-center gap-2 mr-4' onPressIn={() => { router.push('/cart'); }}>
-            <ShoppingCart color={'black'} />
-            <Text>{cartItemsNum}</Text>
-          </Pressable>
-        ),
-        title: 'Shop',
         headerLeft: () => !isLoggedIn ? (
           <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
             <Icon as={User} color={'black'} />
@@ -41,8 +41,15 @@ export default function RootLayout() {
             <Icon as={LogOut} color={'black'} />
           </Pressable>
         ), tabBarIcon: (currentColor) => <Icon as={Store} size='md' color={currentColor.color} />,
+        title: 'Shop',
+        headerRight: () => (
+          <Pressable className='flex-row items-center gap-2 mr-4' onPressIn={() => { router.push('/cart'); }} disabled={cartItemsNum === 0}>
+            <ShoppingCart color={'black'} />
+            <Text>{cartItemsNum}</Text>
+          </Pressable>
+        ),
       }} />
-      <Tabs.Screen name="orders" options={{ title: 'Orders', tabBarIcon: (currentColor) => <Icon as={ListIcon} size='md' color={currentColor.color} />, }} />
+      <Tabs.Screen name="orders" options={{ title: 'Orders', tabBarIcon: (currentColor) => <Icon as={ListIcon} size='md' color={currentColor.color} /> }} />
     </Tabs>
   );
 }
