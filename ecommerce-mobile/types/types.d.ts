@@ -20,6 +20,8 @@ export type OrderItem = {
 export type CartState = {
   items: CartItem[];
   addProduct: (product: Product) => void;
+  increaseItemQuantity: (product: Product) => void;
+  decreaseItemQuantity: (product: Product) => void;
   resetCart: () => void;
 };
 

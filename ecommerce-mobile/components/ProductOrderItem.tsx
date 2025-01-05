@@ -24,7 +24,7 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
               {productDetail.product.name}
             </Text>
             <Heading size="md" className="mb-4">
-              ${productDetail.product.price}
+              ${productDetail.product.price * productDetail.quantity}
             </Heading>
           </VStack>
           <Text className='text-sm font-normal text-typography-700 ml-auto'>Quantity: {productDetail.quantity}</Text>

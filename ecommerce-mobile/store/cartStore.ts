@@ -19,5 +19,40 @@ export const useCart = create<CartState>((set) => ({
       };
     });
   },
+  increaseItemQuantity: (product: Product) => {
+    set((state) => {
+      const itemFound = state.items.find((item) => item.product.id === product.id);
+      if (itemFound) {
+        return {
+          items: state.items.map((item) =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
+        };
+      }
+      return {
+        items: [...state.items],
+      };
+    });
+  },
+  decreaseItemQuantity: (product: Product) => {
+    set((state) => {
+      const itemFound = state.items.find((item) => item.product.id === product.id);
+      if (itemFound) {
+        return {
+          items: state.items.map((item) =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity - 1 }
+              : item
+          ),
+        };
+      }
+      return {
+        items: [...state.items.filter((item) => item.quantity > 0)],
+      };
+    });
+  },
   resetCart: () => set({ items: [] }),
 }));
+
