@@ -45,11 +45,11 @@ export const useCart = create<CartState>((set) => ({
             item.product.id === product.id
               ? { ...item, quantity: item.quantity - 1 }
               : item
-          ),
+          ).filter((item) => item.quantity > 0),
         };
       }
       return {
-        items: [...state.items.filter((item) => item.quantity > 0)],
+        items: [...state.items],
       };
     });
   },
