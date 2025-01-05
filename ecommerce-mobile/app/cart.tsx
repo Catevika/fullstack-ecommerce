@@ -1,5 +1,6 @@
 import { createOrder } from '@/api/orders';
 import { Button, ButtonText } from '@/components/ui/button';
+import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -8,7 +9,7 @@ import { useCart } from '@/store/cartStore';
 import { useMutation } from '@tanstack/react-query';
 import { Link, Redirect } from 'expo-router';
 import { CirclePlus, MinusCircle } from 'lucide-react-native';
-import { FlatList, Pressable } from 'react-native';
+import { FlatList, Image, Pressable } from 'react-native';
 
 export default function CartScreen() {
   const items = useCart((state) => state.items);
@@ -18,7 +19,7 @@ export default function CartScreen() {
     mutationFn: () => createOrder(items.map((item) => ({
       productId: item.product.id,
       quantity: item.quantity,
-      price: item.product.price, // MANAGED FROM SERVER SIDE
+      price: item.product.price,
     }))),
     onSuccess: () => {
       resetCart();
@@ -28,7 +29,6 @@ export default function CartScreen() {
 
   const increaseItemQuantity = useCart((state) => state.increaseItemQuantity);
   const decreaseItemQuantity = useCart((state) => state.decreaseItemQuantity);
-
 
   const onCheckout = async () => {
     createOrderMutation.mutate();
@@ -52,28 +52,41 @@ export default function CartScreen() {
       contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
       keyExtractor={(item) => item.product.id.toString()}
       renderItem={({ item }) => (
-        <HStack className='bg-white p-3'>
+        <HStack className='bg-white p-3 items-center'>
+          <Image
+            source={{
+              uri: item.product.image,
+            }}
+            className="h-[80px] rounded-md aspect-[4/3]"
+            alt={`${item.product.name}`}
+            resizeMode="contain"
+          />
           <VStack space="sm" className='mr-auto'>
-            <Text bold isTruncated>{item.product.name}</Text>
-            <Text>${item.product.price}</Text>
+            <Heading size="md">{item.product.name}</Heading>
+            <Text className="text-sm font-bold text-typography-700">
+              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${item.product.price}
+            </Text>
+            <HStack space="sm" className='justify-start items-center'>
+              <Text className='text-sm font-normal text-typography-700'>Quantity: </Text>
+              <Pressable onPress={() => decreaseItemQuantity(item.product)}>
+                <Icon as={MinusCircle} size="lg" />
+              </Pressable>
+              <Text className='p-2'>{item.quantity}</Text>
+              <Pressable onPress={() => increaseItemQuantity(item.product)}>
+                <Icon as={CirclePlus} size="lg" />
+              </Pressable>
+            </HStack>
+            {items.length > 1 && item.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${item.product.price * item.quantity}</Text> : null}
           </VStack>
-          <HStack space="sm" className='justify-end items-center'>
-            <Pressable onPress={() => decreaseItemQuantity(item.product)}>
-              <Icon as={MinusCircle} size="lg" />
-            </Pressable>
-            <Text className='p-2'>{item.quantity}</Text>
-            <Pressable onPress={() => increaseItemQuantity(item.product)}>
-              <Icon as={CirclePlus} size="lg" />
-            </Pressable>
-          </HStack>
         </HStack>
       )}
       ListFooterComponent={() => (
         <VStack space="sm">
-          <HStack className='mx-auto mb-4'>
-            <Text>Total: </Text>
-            <Text className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0)}</Text>
-          </HStack>
+          <Text className='p-4'>Total: </Text>
+          <Button variant='outline'>
+            <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0)}</ButtonText>
+          </Button>
+
           <Button onPress={onCheckout}>
             <ButtonText>Checkout</ButtonText>
           </Button>

@@ -37,6 +37,5 @@ export default function OrdersScreen() {
       )}
       keyExtractor={item => item.id.toString()}
     />
-
   );
 }

@@ -1,6 +1,8 @@
 import { fetchOrderById } from '@/api/orders';
 import { listProducts } from '@/api/products';
 import ProductOrderItem from '@/components/ProductOrderItem';
+import { Button, ButtonText } from '@/components/ui/button';
+import { HStack } from '@/components/ui/hstack';
 import { useAuth } from '@/store/authStore';
 import type { OrderItem, Product } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
@@ -41,6 +43,8 @@ export default function OrderDetailScreen() {
     quantity: item.quantity,
   }));
 
+  const total = order.items.reduce((total: number, item: OrderItem) => total + item.price * item.quantity, 0);
+
   return (
     <View>
       <Stack.Screen name="[id]" options={{ title: `Order #${id} - Details` }} />
@@ -52,6 +56,12 @@ export default function OrderDetailScreen() {
         )}
         keyExtractor={item => item.id.toString()}
       />
+      <HStack className='mb-4 items-center'>
+        <Text className='p-4'>Total: </Text>
+        <Button variant='outline'>
+          <ButtonText className="text-typography-900">${total}</ButtonText>
+        </Button>
+      </HStack>
     </View>
   );
 }

@@ -1,4 +1,3 @@
-import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
@@ -10,7 +9,7 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
   return (
     <Link href={`/product/${productDetail.id}`} asChild>
       <Pressable className="flex-1">
-        <HStack className="bg-white p-5 rounded-lg flex-1">
+        <HStack className="bg-white pt-5 rounded-lg flex-1">
           <Image
             source={{
               uri: productDetail.product.image,
@@ -20,14 +19,15 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
             resizeMode="contain"
           />
           <VStack space="sm" className='pl-4'>
-            <Text className="text-sm font-normal mb-2 text-typography-700">
+            <Text className="text-sm font-bold text-typography-700">
               {productDetail.product.name}
             </Text>
-            <Heading size="md" className="mb-4">
-              ${productDetail.product.price * productDetail.quantity}
-            </Heading>
+            <Text className="text-sm font-bold text-typography-700">
+              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${productDetail.product.price}
+            </Text>
+            <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-normal text-typography-700'>Quantity: </Text> {productDetail.quantity}</Text>
+            {productDetail.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${productDetail.product.price * productDetail.quantity}</Text> : null}
           </VStack>
-          <Text className='text-sm font-normal text-typography-700 ml-auto'>Quantity: {productDetail.quantity}</Text>
         </HStack>
       </Pressable>
     </Link>
