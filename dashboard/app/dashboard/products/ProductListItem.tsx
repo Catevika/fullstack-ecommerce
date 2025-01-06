@@ -6,7 +6,7 @@ import type { Product } from '@/types/types';
 import Link from 'next/link';
 const ProductListItem = ({ product }: { product: Product; }) => {
   return (
-    <Link href={`/product/${product.id}`}>
+    <Link href={`/dashboard/products/${product.id}`}>
       <Card className="p-5 rounded-lg flex-1">
         <Image
           source={{
