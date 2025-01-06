@@ -7,7 +7,7 @@ import { Pressable } from 'react-native';
 import { HStack } from './ui/hstack';
 const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) => {
   return (
-    <Link href={`/product/${productDetail.id}`} asChild>
+    <Link href={`/products/${productDetail.id}`} asChild>
       <Pressable className="flex-1">
         <HStack className="bg-white pt-5 rounded-lg flex-1">
           <Image
