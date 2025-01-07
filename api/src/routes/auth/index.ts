@@ -6,10 +6,16 @@ import { db } from '../../db/index.js';
 import { createUserSchema, loginSchema, usersTable } from '../../db/schema/usersSchema.js';
 import { validateData } from '../../middlewares/validationMiddleware.js';
 
+const secret = process.env.JWT_SECRET;
+
+if (!secret) {
+  throw new Error("JWT_SECRET is not defined");
+}
+
 const router = Router();
 
 const generateUserToken = (user: any) => {
-  return jwt.sign({ userId: user.id, role: user.role }, 'your-secret', {
+  return jwt.sign({ userId: user.id, role: user.role }, secret, {
     expiresIn: '30d',
   });
 };
