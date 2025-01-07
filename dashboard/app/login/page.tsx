@@ -36,8 +36,8 @@ export default function LoginPage() {
             <Text className="text-typography-500">Email</Text>
             <Input className="min-w-[250px]">
               <InputField value={email} onChangeText={setEmail} type="text" className='h-60 text-xl' />
-            </Input >
-          </VStack >
+            </Input>
+          </VStack>
           <VStack space="xs">
             <Text className="text-typography-500">Password</Text>
             <Input className="text-center">
@@ -65,8 +65,8 @@ export default function LoginPage() {
               <ButtonText>Sign In</ButtonText>
             </Button>
           </HStack>
-        </VStack >
-      </FormControl >
-    </Box >
+        </VStack>
+      </FormControl>
+    </Box>
   );
 };
