@@ -9,7 +9,7 @@ export default async function ProductsPage() {
   const products = await listProducts();
 
   return (
-    <div className='flex flex-row flex-wrap gap-4 max-w-[1200px] mx-auto w-full'>
+    <div className='flex flex-row flex-wrap gap-4 max-w-[1200px] justify-center w-full mx-auto py-4'>
       <Link href={`/dashboard/products/create`}>
         <Card className='w-[360px] h-full justify-center items-center flex'>
           <Icon as={AddIcon} className='w-10 h-10 color-slate-600' />
