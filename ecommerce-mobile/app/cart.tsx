@@ -55,9 +55,9 @@ export default function CartScreen() {
         <HStack className='bg-white p-3 items-center'>
           <Image
             source={{
-              uri: item.product.image,
+              uri: item.product.image || 'https://via.placeholder.com/200x200',
             }}
-            className="h-[80px] rounded-md aspect-[4/3]"
+            className={item.product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
             alt={`${item.product.name}`}
             resizeMode="contain"
           />

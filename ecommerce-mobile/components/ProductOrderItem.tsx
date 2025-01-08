@@ -1,10 +1,10 @@
+import { HStack } from '@/components/ui/hstack';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import type { ProductDetail } from '@/types/types';
 import { Link } from 'expo-router';
 import { Pressable } from 'react-native';
-import { HStack } from './ui/hstack';
 const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) => {
   return (
     <Link href={`/products/${productDetail.id}`} asChild>
@@ -12,9 +12,9 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
         <HStack className="bg-white pt-5 rounded-lg flex-1">
           <Image
             source={{
-              uri: productDetail.product.image,
+              uri: productDetail.product.image || 'https://via.placeholder.com/200x200',
             }}
-            className="mb-6 h-[80px] rounded-md aspect-[4/3]"
+            className={productDetail.product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
             alt={`${productDetail.product.name}`}
             resizeMode="contain"
           />

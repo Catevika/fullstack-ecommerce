@@ -1,5 +1,5 @@
 import { fetchProductById } from '@/api/products';
-import ProductListItem from '../ProductListItem';
+import ProductListItem from '@/app/dashboard/products/ProductListItem';
 
 export default async function ProductPage({ params: { id } }: { params: { id: string; }; }) {
   const product = await fetchProductById(Number(id));
