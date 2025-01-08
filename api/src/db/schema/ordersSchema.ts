@@ -7,7 +7,7 @@ import { usersTable } from './usersSchema.js';
 export const ordersTable = pgTable('orders', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   createdAt: timestamp().notNull().defaultNow(),
-  status: varchar({ length: 50 }).notNull().default('new'),
+  status: varchar({ length: 50 }).notNull().default('New'),
   userId: integer().references(() => usersTable.id).notNull()
 });
 
