@@ -51,7 +51,7 @@ const ProductDetailScreen = () => {
         </Text>
         <VStack className="mb-6">
           <Heading size="md" className="mb-4">
-            ${product.price}
+            ${product.price.toFixed(2)}
           </Heading>
           <Text size="sm">
             {product.description}

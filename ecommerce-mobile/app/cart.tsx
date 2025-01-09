@@ -64,7 +64,7 @@ export default function CartScreen() {
           <VStack space="sm" className='mr-auto'>
             <Heading size="md">{item.product.name}</Heading>
             <Text className="text-sm font-bold text-typography-700">
-              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${item.product.price}
+              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${item.product.price.toFixed(2)}
             </Text>
             <HStack space="sm" className='justify-start items-center'>
               <Text className='text-sm font-normal text-typography-700'>Quantity: </Text>
@@ -76,7 +76,7 @@ export default function CartScreen() {
                 <Icon as={CirclePlus} size="lg" />
               </Pressable>
             </HStack>
-            {items.length > 1 && item.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${item.product.price * item.quantity}</Text> : null}
+            {items.length > 1 && item.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${(item.product.price * item.quantity).toFixed(2)}</Text> : null}
           </VStack>
         </HStack>
       )}
@@ -84,7 +84,7 @@ export default function CartScreen() {
         <VStack space="sm">
           <Text className='p-4'>Total: </Text>
           <Button variant='outline'>
-            <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0)}</ButtonText>
+            <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2)}</ButtonText>
           </Button>
 
           <Button onPress={onCheckout}>

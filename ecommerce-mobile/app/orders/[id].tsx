@@ -59,7 +59,7 @@ export default function OrderDetailScreen() {
       <HStack className='mb-4 items-center'>
         <Text className='p-4'>Total: </Text>
         <Button variant='outline'>
-          <ButtonText className="text-typography-900">${total}</ButtonText>
+          <ButtonText className="text-typography-900">${total.toFixed(2)}</ButtonText>
         </Button>
       </HStack>
     </View>

@@ -23,10 +23,10 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
               {productDetail.product.name}
             </Text>
             <Text className="text-sm font-bold text-typography-700">
-              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${productDetail.product.price}
+              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${productDetail.product.price.toFixed(2)}
             </Text>
             <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-normal text-typography-700'>Quantity: </Text> {productDetail.quantity}</Text>
-            {productDetail.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${productDetail.product.price * productDetail.quantity}</Text> : null}
+            {productDetail.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${(productDetail.product.price * productDetail.quantity).toFixed(2)}</Text> : null}
           </VStack>
         </HStack>
       </Pressable>
