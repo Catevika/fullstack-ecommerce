@@ -1,3 +1,4 @@
+import { getToken } from '@/api/orders';
 import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
@@ -5,12 +6,11 @@ import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { House, List, ShoppingBag } from 'lucide-react';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-export default function DashboardLayout({ children }: { children: React.ReactNode; }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode; }) {
   // For production, add a validation of the token and a regenerate if expired...
-  const token = cookies().get('token')?.value;
+  const token = await getToken();
 
   if (!token) {
     redirect('/login');

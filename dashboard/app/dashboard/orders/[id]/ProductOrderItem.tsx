@@ -8,8 +8,8 @@ export default function ProductOrderItem({ productDetail }: { productDetail: Pro
     <HStack className='p-4 gap-4'>
       <Image src={productDetail.product?.image || 'https://via.placeholder.com/100x100'} alt={productDetail.product.name} width={100}
         height={0} style={{ width: 'auto', height: 'auto', aspectRatio: '2/3', borderRadius: '10px' }} priority />
-      <Text>{productDetail.quantity} x <Text className='font-bold'>${productDetail.product.price}</Text></Text>
-      {productDetail.quantity > 1 ? <Text> - Sub-total: <Text className='text-sm text-typography-700 font-bold'>${productDetail.product.price * productDetail.quantity}</Text></Text> : null}
+      <Text>{productDetail.quantity} x <Text className='font-bold'>${productDetail.product.price.toFixed(2)}</Text></Text>
+      {productDetail.quantity > 1 ? <Text> - Sub-total: <Text className='text-sm text-typography-700 font-bold'>${(productDetail.product.price * productDetail.quantity).toFixed(2)}</Text></Text> : null}
     </HStack>
   );
 }

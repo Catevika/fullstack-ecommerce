@@ -41,7 +41,7 @@ export default async function OrderPage({ params }: { params: { id: string; }; }
         ))}
       </VStack>
       <VStack className='p-4'>
-        <Text>Total: <Text className='mt-4 font-bold'>${total}</Text></Text>
+        <Text>Total: <Text className='mt-4 font-bold'>${total.toFixed(2)}</Text></Text>
       </VStack>
     </Card>
   );

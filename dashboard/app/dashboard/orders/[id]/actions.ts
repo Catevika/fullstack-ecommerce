@@ -1,13 +1,13 @@
 "use server";
 
+import { getToken } from '@/api/orders';
 import { API_URL } from '@/config';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function updateOrderStatus(id: number, status: string) {
   const redirectUrl = `/dashboard/orders/${id}`;
 
-  const token = cookies().get('token')?.value;
+  const token = await getToken();
   if (!token) {
     throw new Error('No token found');
   }
@@ -31,5 +31,4 @@ export async function updateOrderStatus(id: number, status: string) {
   } finally {
     return redirect(redirectUrl);
   }
-
 }

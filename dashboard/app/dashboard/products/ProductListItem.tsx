@@ -20,7 +20,7 @@ const ProductListItem = ({ product }: { product: Product; }) => {
           {product.name}
         </Text>
         <Heading size="md" className="mb-4">
-          ${product.price}
+          ${product.price.toFixed(2)}
         </Heading>
       </Card>
     </Link>

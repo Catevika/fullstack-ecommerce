@@ -1,8 +1,8 @@
 'use server';
 
+import { deleteToken, getToken } from '@/api/orders';
 import { API_URL } from '@/config';
 import { revalidateTag } from 'next/cache';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function createProduct(
@@ -12,7 +12,7 @@ export async function createProduct(
 ) {
   let redirectUrl = '/dashboard/products';
   try {
-    const token = cookies().get('token')?.value;
+    const token = await getToken();
 
     const res = await fetch(`${API_URL}/products`, {
       method: 'POST',
@@ -26,7 +26,7 @@ export async function createProduct(
     if (!res.ok) {
       console.log(res);
       if (res.status === 401) {
-        cookies().delete('token');
+        await deleteToken();
         redirectUrl = '/login';
       } else {
         throw new Error('Failed to create product: ');

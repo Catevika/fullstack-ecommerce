@@ -1,10 +1,13 @@
-import { cookies } from 'next/headers';
+import { getToken } from '@/api/orders';
 import { redirect } from 'next/navigation';
-export default function LoginLayout({ children }: { children: React.ReactNode; }) {
 
-  const token = cookies().get('token')?.value;
+export default async function LoginLayout({ children }: { children: React.ReactNode; }) {
+
+  const token = await getToken();
+
   if (!!token) {
     redirect('/dashboard');
   }
+
   return <div>{children}</div>;
 }
