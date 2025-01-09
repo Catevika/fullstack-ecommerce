@@ -1,16 +1,16 @@
 'use client';
-import React from 'react';
 import { createAvatar } from '@gluestack-ui/avatar';
+import React from 'react';
 
-import { View, Text, Image, Platform } from 'react-native';
+import { Image, Platform, Text, View } from 'react-native';
 
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import {
-  withStyleContext,
   useStyleContext,
+  withStyleContext,
 } from '@gluestack-ui/nativewind-utils/withStyleContext';
 const SCOPE = 'AVATAR';
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
 const UIAvatar = createAvatar({
   Root: withStyleContext(View, SCOPE),
@@ -90,6 +90,7 @@ const Avatar = React.forwardRef<
     />
   );
 });
+Avatar.displayName = 'Avatar';
 
 type IAvatarBadgeProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Badge> &
   VariantProps<typeof avatarBadgeStyle>;
@@ -114,6 +115,7 @@ const AvatarBadge = React.forwardRef<
     />
   );
 });
+AvatarBadge.displayName = 'AvatarBadge';
 
 type IAvatarFallbackTextProps = React.ComponentPropsWithoutRef<
   typeof UIAvatar.FallbackText
@@ -139,6 +141,7 @@ const AvatarFallbackText = React.forwardRef<
     />
   );
 });
+AvatarFallbackText.displayName = 'AvatarFallbackText';
 
 type IAvatarImageProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Image> &
   VariantProps<typeof avatarImageStyle>;
@@ -154,16 +157,16 @@ const AvatarImage = React.forwardRef<
       className={avatarImageStyle({
         class: className,
       })}
-      // @ts-expect-error
+      // @ts-expect-error - Style property types mismatch between React Native Web and Native
       style={
         Platform.OS === 'web'
-          ? // eslint-disable-next-line react-native/no-inline-styles
-            { height: 'revert-layer', width: 'revert-layer' }
+          ? { height: 'revert-layer', width: 'revert-layer' }
           : undefined
       }
     />
   );
 });
+AvatarImage.displayName = 'AvatarImage';
 
 type IAvatarGroupProps = React.ComponentPropsWithoutRef<typeof UIAvatar.Group> &
   VariantProps<typeof avatarGroupStyle>;
@@ -182,5 +185,7 @@ const AvatarGroup = React.forwardRef<
     />
   );
 });
+AvatarGroup.displayName = 'AvatarGroup';
 
-export { Avatar, AvatarBadge, AvatarFallbackText, AvatarImage, AvatarGroup };
+export { Avatar, AvatarBadge, AvatarFallbackText, AvatarGroup, AvatarImage };
+
