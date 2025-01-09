@@ -1,10 +1,13 @@
 import gluestackPlugin from '@gluestack-ui/nativewind-utils/tailwind-plugin';
 
+import { withTV } from "tailwind-variants/transformer";
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports = withTV({
   darkMode: "class",
   content: ["app/**/*.{tsx,jsx,ts,js}", "components/**/*.{tsx,jsx,ts,js}"],
-  presets: ['nativewind/preset'],
+  /* eslint-disable */
+  presets: [require('nativewind/preset')],
   important: "html",
 
   theme: {
@@ -166,9 +169,6 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: undefined,
-        body: undefined,
-        mono: undefined,
         roboto: ['Roboto', 'sans-serif'],
       },
       fontWeight: {
@@ -192,4 +192,4 @@ module.exports = {
   },
 
   plugins: [gluestackPlugin]
-};
+});

@@ -11,7 +11,8 @@ const token =
 	(process.env['NEXT_BUILD_ID'] || '');
 
 export default class CacheHandler {
-	constructor() {
+	/* eslint-disable */
+	constructor(options) {
 		this.queue = Queue;
 		this.incrementalCache = IncrementalCache;
 		this.tagCache = TagCache;
