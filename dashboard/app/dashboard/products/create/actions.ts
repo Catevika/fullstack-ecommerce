@@ -2,7 +2,6 @@
 
 import { deleteToken, getToken } from '@/api/orders';
 import { API_URL } from '@/config';
-import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createProduct(
@@ -32,13 +31,12 @@ export async function createProduct(
         throw new Error('Failed to create product: ');
       }
     }
+
+    redirect(redirectUrl);
   } catch (error) {
     console.log(error);
     redirectUrl = `/dashboard/products/create?errorMessage=${encodeURIComponent(
       'Failed to create product'
     )}`;
-  } finally {
-    revalidateTag('products');
-    redirect(redirectUrl);
   }
 }

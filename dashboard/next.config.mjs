@@ -29,6 +29,7 @@ const nextConfig = {
 	cacheHandler:
 		process.env.NODE_ENV === 'production' ? './cache-handler.mjs' : undefined,
 	cacheMaxMemorySize: 0,
-};
+
+  };
 
 export default withGluestackUI(nextConfig);

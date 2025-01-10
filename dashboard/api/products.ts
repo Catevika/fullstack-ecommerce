@@ -1,6 +1,6 @@
 import { API_URL } from '@/config';
 export async function listProducts() {
-  const res = await fetch(`${API_URL}/products`, { next: { tags: ['products'] } });
+  const res = await fetch(`${API_URL}/products`, { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch products');
   }
