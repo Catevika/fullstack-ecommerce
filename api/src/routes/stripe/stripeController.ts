@@ -29,7 +29,7 @@ export async function createPaymentIntent(req: Request, res: Response) {
   const orderItems = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, orderId));
 
   const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const amount = Math.round(total * 100);
+  const amount = Math.floor(total * 100);
 
   if (amount === 0) {
     res.status(400).json({ error: 'Order is empty' });
