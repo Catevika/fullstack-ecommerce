@@ -4,7 +4,7 @@ import { useAuth } from '@/store/authStore';
 import { useCart } from '@/store/cartStore';
 import { router, Tabs } from 'expo-router';
 import { ListIcon, LogOut, ShoppingCart, Store, User } from 'lucide-react-native';
-import { Pressable } from 'react-native';
+import { Alert, Pressable } from 'react-native';
 
 export default function RootLayout() {
   const cartItemsNum = useCart((state) => state.items.map(item => item.quantity).reduce((a, b) => a + b, 0));
@@ -16,6 +16,7 @@ export default function RootLayout() {
   const handleLogout = () => {
     setUser(null);
     setToken(null);
+    Alert.alert('You successfully logged out!');
   };
 
   return (

@@ -11,7 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Redirect, Stack } from 'expo-router';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,6 +52,7 @@ export default function LoginScreen() {
   };
 
   if (isLoggedIn) {
+    Alert.alert('You successfully logged in!');
     return <Redirect href="/" />;
   }
 
