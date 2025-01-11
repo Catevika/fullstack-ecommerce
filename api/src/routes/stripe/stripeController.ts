@@ -1,12 +1,24 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+  throw new Error('Stripe secret key is not defined');
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: '2024-12-18.acacia',
 });
 
 export async function getKeys(_req: Request, res: Response) {
-  res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
+  const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
+  if (!publishableKey) {
+    res.status(500).json({ error: 'Stripe publishable key not configured' });
+  }
+
+  res.json({ publishableKey });
 }
 
 export async function createPaymentIntent(_req: Request, res: Response) {

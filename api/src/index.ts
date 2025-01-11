@@ -3,8 +3,9 @@ import serverless from "serverless-http";
 import authRoutes from './routes/auth/index.js';
 import ordersRoutes from './routes/orders/index.js';
 import productsRoutes from './routes/products/index.js';
+import stripeRoutes from './routes/stripe/index.js';
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(urlencoded({ extended: false }));
 app.use('/products', productsRoutes);
 app.use('/auth', authRoutes);
 app.use('/orders', ordersRoutes);
+app.use('/stripe', stripeRoutes);
 
 if (process.env.NODE_ENV === "dev") {
   app.listen(port, () => {
