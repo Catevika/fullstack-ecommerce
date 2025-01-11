@@ -1,4 +1,5 @@
 import { createOrder } from '@/api/orders';
+import { createPaymentIntent } from '@/api/stripe';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
@@ -6,14 +7,58 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { useCart } from '@/store/cartStore';
+import { useStripe } from '@stripe/stripe-react-native';
 import { useMutation } from '@tanstack/react-query';
-import { Link, Redirect } from 'expo-router';
+import { Link, Redirect, useRouter } from 'expo-router';
 import { CirclePlus, MinusCircle } from 'lucide-react-native';
-import { FlatList, Image, Pressable } from 'react-native';
+import { Alert, FlatList, Image, Pressable } from 'react-native';
 
 export default function CartScreen() {
   const items = useCart((state) => state.items);
   const resetCart = useCart((state) => state.resetCart);
+
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      console.log(error);
+      // TODO: handle error. The order is submitted, but payment failed.
+    } else {
+      Alert.alert('Your order is confirmed and will be shipped very soon!');
+      resetCart();
+      router.replace('/');
+    }
+  };
+
+  const paymentIntentMutation = useMutation({
+    mutationFn: createPaymentIntent,
+    onSuccess: async (data) => {
+      const { paymentIntent, ephemeralKey, customer } = data;
+
+      const { error } = await initPaymentSheet({
+        merchantDisplayName: "Catevika",
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+        paymentIntentClientSecret: paymentIntent,
+        // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+        //methods that complete payment after a delay, like SEPA Debit and Sofort.
+        // allowsDelayedPaymentMethods: true,
+        defaultBillingDetails: {
+          name: 'Jane Doe',
+        }
+      });
+
+      if (error) {
+        console.log(error);
+      }
+      openPaymentSheet();
+    },
+    onError: (error) => console.error(error),
+  });
+
+  const router = useRouter();
 
   const createOrderMutation = useMutation({
     mutationFn: () => createOrder(items.map((item) => ({
@@ -21,18 +66,14 @@ export default function CartScreen() {
       quantity: item.quantity,
       price: item.product.price,
     }))),
-    onSuccess: () => {
-      resetCart();
+    onSuccess: (data) => {
+      paymentIntentMutation.mutate({ orderId: data.id });
     },
     onError: (error) => console.error(error),
   });
 
   const increaseItemQuantity = useCart((state) => state.increaseItemQuantity);
   const decreaseItemQuantity = useCart((state) => state.decreaseItemQuantity);
-
-  const onCheckout = async () => {
-    createOrderMutation.mutate();
-  };
 
   if (items.length === 0) {
     return <Redirect href="/" />;
@@ -87,9 +128,12 @@ export default function CartScreen() {
             <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2)}</ButtonText>
           </Button>
 
-          <Button onPress={onCheckout}>
-            <ButtonText>Checkout</ButtonText>
-          </Button>
+          <Pressable
+            onPressIn={() => createOrderMutation.mutateAsync()}
+            className="bg-black p-3 rounded-md items-center"
+          >
+            <Text className="text-white font-bold">Checkout</Text>
+          </Pressable>
         </VStack>
       )}
     />
