@@ -25,7 +25,6 @@ export async function getKeys(_req: Request, res: Response) {
 
 export async function createPaymentIntent(req: Request, res: Response) {
   const { orderId } = req.body;
-  // const order = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId));
   const orderItems = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, orderId));
 
   const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
