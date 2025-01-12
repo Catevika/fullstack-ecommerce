@@ -9,6 +9,9 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
+app.use('/stripe/webhook', express.raw({ type: 'application/json' }));
+
+
 app.use(json());
 app.use(urlencoded({ extended: false }));
 

@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { db } from '../../db/index.js';
-import { orderItemsTable } from '../../db/schema/ordersSchema.js';
+import { orderItemsTable, ordersTable } from '../../db/schema/ordersSchema.js';
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeSecretKey) {
@@ -48,10 +48,60 @@ export async function createPaymentIntent(req: Request, res: Response) {
     customer: customer.id,
   });
 
+  await db.update(ordersTable).set({ stripePaymentIntentId: paymentIntent.id }).where(eq(ordersTable.id, orderId));
+
   res.json({
     paymentIntent: paymentIntent.client_secret,
     ephemeralKey: ephemeralKey.secret,
     customer: customer.id,
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   });
+}
+
+export async function webhook(req: Request, res: Response) {
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  console.log('Webhook called');
+  console.log('Request body:', req.body);
+
+  if (!endpointSecret) {
+    throw new Error('Stripe webhook secret is not defined');
+  }
+
+  const sig = req.headers['stripe-signature'];
+
+  if (!sig) {
+    res.status(400).send('Missing stripe-signature header');
+    return;
+  }
+
+  console.log('Signature:', req.headers['stripe-signature']);
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (error) {
+    res.status(400).send(`Webhook Error: ${error}`);
+    return;
+  }
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      console.log('PaymentIntent was successful!', paymentIntent);
+      await db.update(ordersTable).set({ status: 'paid' }).where(eq(ordersTable.stripePaymentIntentId, paymentIntent.id));
+      break;
+    case 'payment_intent.payment_failed':
+      const paymentIntentFailed = event.data.object;
+      console.log('PaymentIntent failed!', paymentIntentFailed);
+      await db.update(ordersTable).set({ status: 'payment_failed' }).where(eq(ordersTable.stripePaymentIntentId, paymentIntentFailed.id));
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  res.json({ received: true });
 }
