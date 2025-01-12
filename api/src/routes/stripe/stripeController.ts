@@ -61,9 +61,6 @@ export async function createPaymentIntent(req: Request, res: Response) {
 export async function webhook(req: Request, res: Response) {
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  console.log('Webhook called');
-  console.log('Request body:', req.body);
-
   if (!endpointSecret) {
     throw new Error('Stripe webhook secret is not defined');
   }
@@ -74,8 +71,6 @@ export async function webhook(req: Request, res: Response) {
     res.status(400).send('Missing stripe-signature header');
     return;
   }
-
-  console.log('Signature:', req.headers['stripe-signature']);
 
   let event;
 
