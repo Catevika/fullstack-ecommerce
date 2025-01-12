@@ -12,7 +12,7 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
         <HStack className="bg-white pt-5 rounded-lg flex-1">
           <Image
             source={{
-              uri: productDetail.product.image || 'https://via.placeholder.com/200x200',
+              uri: productDetail.product.image || 'https://placehold.co//200x200',
             }}
             className={productDetail.product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
             alt={`${productDetail.product.name}`}
