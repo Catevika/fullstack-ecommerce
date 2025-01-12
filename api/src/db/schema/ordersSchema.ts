@@ -8,7 +8,8 @@ export const ordersTable = pgTable('orders', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   createdAt: timestamp().notNull().defaultNow(),
   status: varchar({ length: 50 }).notNull().default('New'),
-  userId: integer().references(() => usersTable.id).notNull()
+  userId: integer().references(() => usersTable.id).notNull(),
+  stripePaymentIntentId: varchar({ length: 255 }),
 });
 
 export const orderItemsTable = pgTable('order_items', {
