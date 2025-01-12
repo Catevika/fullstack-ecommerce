@@ -17,8 +17,6 @@ export default function CustomStripeProvider({ children }: { children: React.Rea
     console.log('Unable to initialize Stripe');
   }
 
-  console.log(stripeKeys);
-
   return (
     <StripeProvider publishableKey={stripeKeys.publishableKey}>
       {children}
