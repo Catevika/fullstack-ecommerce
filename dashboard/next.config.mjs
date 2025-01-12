@@ -12,7 +12,7 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'via.placeholder.com',
+				hostname: 'https://placehold.co',
 				port: '',
 				pathname: '/**',
 				search: '',
@@ -29,7 +29,6 @@ const nextConfig = {
 	cacheHandler:
 		process.env.NODE_ENV === 'production' ? './cache-handler.mjs' : undefined,
 	cacheMaxMemorySize: 0,
-
-  };
+};
 
 export default withGluestackUI(nextConfig);
