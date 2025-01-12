@@ -10,7 +10,7 @@ const ProductListItem = ({ product }: { product: Product; }) => {
       <Card className="p-5 rounded-lg flex-1">
         <Image
           source={{
-            uri: product.image || 'https://via.placeholder.com/200x200',
+            uri: product.image || 'https://placehold.co//200x200',
           }}
           className={product.image ? 'mb-6 h-[240px] w-full rounded-md aspect-[4/3]' : 'mb-6 h-[240px] w-full rounded-md aspect-[4/3] bg-neutral-300'}
           alt={`${product.name}`}
