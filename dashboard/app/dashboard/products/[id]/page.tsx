@@ -6,7 +6,9 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
 
   return (
     <div className='max-w-screen-lg mx-auto w-full'>
-      <ProductListItem product={product} />
+      <div className='p-4'>
+        <ProductListItem product={product} />
+      </div>
     </div>
   );
 }

@@ -30,7 +30,6 @@ export async function handleLogin(email: string, password: string) {
       cookies().set('token', res.token);
       redirectUrl = '/dashboard';
     }
-    console.log(res);
   } catch (error) {
     console.log(error);
   } finally {

@@ -1,8 +1,10 @@
 "use client";
 
+import { deleteProduct } from '@/app/dashboard/products/[id]/action';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
+import { HStack } from '@/components/ui/hstack';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import type { Product } from '@/types/types';
@@ -32,11 +34,16 @@ const ProductListItem = ({ product }: { product: Product; }) => {
         <Heading size="md" className="mb-4">
           ${product.price.toFixed(2)}
         </Heading>
-        <Link href={`/dashboard/products/${product.id}/update`}>
-          <Button>
-            <ButtonText>Update</ButtonText>
+        {isProductDetailsPage ? <HStack className='flex items-center justify-between'>
+          <Link href={`/dashboard/products/${product.id}/update`}>
+            <Button variant='outline' >
+              <ButtonText>Update</ButtonText>
+            </Button>
+          </Link>
+          <Button variant='solid' action='negative' className='ml-10' onPress={() => deleteProduct(product.id)}>
+            <ButtonText>Delete</ButtonText>
           </Button>
-        </Link>
+        </HStack> : null}
       </Card>
     </Link>
   );
