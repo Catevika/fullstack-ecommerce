@@ -2,6 +2,8 @@
 import Image from "next/image";
 
 // TODO - Remove the Dashboard in the sidebar and put a redirect link to products?
+// TODO - Add update + delete product functions on dashboard
+// TODO - Create an automatic deployment on Expo Go linked to Github to allow users to test the app
 
 export default function Home() {
   return (

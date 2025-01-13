@@ -27,7 +27,7 @@ export async function updateProduct(
     price?: number;
   }
 ) {
-  let redirectUrl = `/dashboard/products/${id}`;
+  let redirectUrl = '/dashboard/products';
   try {
     const token = await getToken();
 
