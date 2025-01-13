@@ -31,12 +31,11 @@ export async function createProduct(
         throw new Error('Failed to create product: ');
       }
     }
-
-    redirect(redirectUrl);
   } catch (error) {
     console.log(error);
     redirectUrl = `/dashboard/products/create?errorMessage=${encodeURIComponent(
       'Failed to create product'
     )}`;
   }
+  redirect(redirectUrl);
 }

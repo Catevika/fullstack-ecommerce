@@ -1,3 +1,5 @@
+"use server";
+
 import { deleteToken, getToken } from '@/api/orders';
 import { API_URL } from '@/config';
 import { redirect } from 'next/navigation';
@@ -49,12 +51,12 @@ export async function updateProduct(
         throw new Error('Failed to update product: ');
       }
     }
-
-    redirect(redirectUrl);
   } catch (error) {
     console.log(error);
     redirectUrl = `/dashboard/products/update?errorMessage=${encodeURIComponent(
       'Failed to update product'
     )}`;
   }
+
+  redirect(redirectUrl);
 }
