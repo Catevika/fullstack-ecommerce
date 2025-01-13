@@ -1,3 +1,4 @@
+import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
@@ -22,6 +23,11 @@ const ProductListItem = ({ product }: { product: Product; }) => {
         <Heading size="md" className="mb-4">
           ${product.price.toFixed(2)}
         </Heading>
+        <Link href={`/dashboard/products/${product.id}/update`}>
+          <Button>
+            <ButtonText>Update</ButtonText>
+          </Button>
+        </Link>
       </Card>
     </Link>
   );
