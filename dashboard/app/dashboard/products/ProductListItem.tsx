@@ -39,6 +39,11 @@ const ProductListItem = ({ product }: { product: Product; }) => {
               <ButtonText>Update</ButtonText>
             </Button>
           </Link>
+          <Link href={`/dashboard/products/${product.id}/update`}>
+            <Button variant='solid' action='negative' className='ml-10'>
+              <ButtonText>Delete</ButtonText>
+            </Button>
+          </Link>
         </HStack> : null}
       </Card>
     </Link>

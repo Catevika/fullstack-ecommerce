@@ -34,6 +34,8 @@ export default function UpdateProductPage({ params: { id } }: { params: { id: st
 
   return (
     <Box className='flex-1 justify-center items-center min-h-screen'>
+      <Heading className="text-red-500 ">To delete a product, just add - PRODUCT OUT OF STOCK - to its name</Heading>
+      <Text>This way, the order history including this product is preserved</Text>
       <FormControl isInvalid={errorMessage ? true : false} className="bg-white m-3 p-4 max-w-[960px] w-full mx-auto border rounded-lg border-outline-300">
         <VStack space="xl">
           <Heading className="text-typography-900">Update Product:</Heading>
