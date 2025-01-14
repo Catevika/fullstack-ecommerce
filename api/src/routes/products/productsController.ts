@@ -5,7 +5,7 @@ import { productsTable } from '../../db/schema/productsSchema.js';
 
 export async function listProducts(_req: Request, res: Response) {
   try {
-    const products = await db.select().from(productsTable);
+    const products = await db.select().from(productsTable).orderBy(productsTable.name);
     res.json(products);
   } catch (error) {
     res.status(500).send({ error: error });
