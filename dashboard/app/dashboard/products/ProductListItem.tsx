@@ -1,6 +1,5 @@
 "use client";
 
-import { deleteProduct } from '@/app/dashboard/products/[id]/action';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
@@ -40,9 +39,6 @@ const ProductListItem = ({ product }: { product: Product; }) => {
               <ButtonText>Update</ButtonText>
             </Button>
           </Link>
-          <Button variant='solid' action='negative' className='ml-10' onPress={() => deleteProduct(product.id)}>
-            <ButtonText>Delete</ButtonText>
-          </Button>
         </HStack> : null}
       </Card>
     </Link>
