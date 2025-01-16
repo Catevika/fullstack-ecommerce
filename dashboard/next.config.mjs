@@ -12,13 +12,6 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'placehold.co',
-				port: '',
-				pathname: '/**',
-				search: '',
-			},
-			{
-				protocol: 'https',
 				hostname: 'notjustdev-dummy.s3.us-east-2.amazonaws.com',
 				port: '',
 				pathname: '/ecom/**',
