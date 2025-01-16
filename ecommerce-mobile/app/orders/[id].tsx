@@ -6,7 +6,7 @@ import { HStack } from '@/components/ui/hstack';
 import { useAuth } from '@/store/authStore';
 import type { OrderItem, Product } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
 export default function OrderDetailScreen() {
@@ -14,7 +14,14 @@ export default function OrderDetailScreen() {
 
   const user = useAuth.getState().user;
   if (!user) {
-    throw new Error('Something went wrong when logging in');
+    <View className="flex-1 items-center justify-center">
+      <Text>Please login to view your orders</Text>
+      <Link href='/login' asChild>
+        <Button>
+          <ButtonText>login</ButtonText>
+        </Button>
+      </Link>
+    </View>;
   }
 
   const { data: order, isLoading, error } = useQuery({

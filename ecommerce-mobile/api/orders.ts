@@ -28,8 +28,11 @@ export async function createOrder(items: OrderItem[]) {
 
 export async function listOrders() {
   const token = useAuth.getState().token;
+  const user = useAuth.getState().user;
 
-  if (!token) {
+  console.log('token from listOrders: ', token);
+
+  if (!token || !user) {
     throw new Error('Something went wrong when logging in');
   }
 

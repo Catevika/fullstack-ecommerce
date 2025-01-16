@@ -4,20 +4,20 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import type { ProductDetail } from '@/types/types';
 import { Link } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) => {
   return (
     <Link href={`/products/${productDetail.id}`} asChild>
       <Pressable className="flex-1">
         <HStack className="bg-white pt-5 rounded-lg flex-1">
-          <Image
+          {productDetail.product.image ? <Image
             source={{
-              uri: productDetail.product.image || 'https://placehold.co//200x200',
+              uri: productDetail.product.image,
             }}
-            className={productDetail.product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
+            className='h-[80px] rounded-md aspect-[4/3]'
             alt={`${productDetail.product.name}`}
             resizeMode="contain"
-          />
+          /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-4 bg-gray-300'></View>}
           <VStack space="sm" className='pl-4'>
             <Text className="text-sm font-bold text-typography-700">
               {productDetail.product.name}

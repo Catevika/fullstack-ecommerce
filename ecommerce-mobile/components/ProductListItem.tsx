@@ -4,21 +4,21 @@ import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import type { Product } from '@/types/types';
 import { Link } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 const ProductListItem = ({ product }: { product: Product; }) => {
   return (
     <Link href={`/products/${product.id}`} asChild>
       <Pressable className="flex-1">
         <Card className="p-5 rounded-lg flex-1">
-          <Image
+          {product.image ? <Image
             source={{
-              uri: product.image || 'https://placehold.co//300x200',
+              uri: product.image,
             }}
-            className={product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
+            className='h-[80px] rounded-md aspect-[4/3]'
             alt={`${product.name}`}
             resizeMode="contain"
-          />
-          <Text className="text-sm font-normal mb-2 text-typography-700">
+          /> : <View className='h-[80px] rounded-md aspect-[4/3] bg-gray-300'></View>}
+          <Text className="text-sm font-normal my-2 text-typography-700">
             {product.name}
           </Text>
           <Heading size="md" className="mb-4">

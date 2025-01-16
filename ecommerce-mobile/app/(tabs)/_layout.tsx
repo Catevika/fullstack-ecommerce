@@ -2,21 +2,31 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useAuth } from '@/store/authStore';
 import { useCart } from '@/store/cartStore';
+import { useMutation } from '@tanstack/react-query';
 import { router, Tabs } from 'expo-router';
 import { ListIcon, LogOut, ShoppingCart, Store, User } from 'lucide-react-native';
 import { Alert, Pressable } from 'react-native';
 
-export default function RootLayout() {
+export default function TabLayout() {
   const cartItemsNum = useCart((state) => state.items.map(item => item.quantity).reduce((a, b) => a + b, 0));
   const isLoggedIn = useAuth(s => !!s.token);
 
-  const setUser = useAuth(s => s.setUser);
-  const setToken = useAuth(s => s.setToken);
+  const logout = useAuth(s => s.logout);
+
+  const logoutMutation = useMutation({
+    mutationFn: () => logout(),
+    onSuccess: () => {
+      router.replace('/');
+      Alert.alert('You successfully logged out!');
+    },
+    onError: (error) => {
+      console.log('Error logging out:', error);
+      Alert.alert('Error', 'Failed to logout');
+    }
+  });
 
   const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-    Alert.alert('You successfully logged out!');
+    logoutMutation.mutate();
   };
 
   return (

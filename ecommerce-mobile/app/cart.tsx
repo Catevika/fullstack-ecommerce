@@ -11,7 +11,7 @@ import { useStripe } from '@stripe/stripe-react-native';
 import { useMutation } from '@tanstack/react-query';
 import { Link, Redirect, useRouter } from 'expo-router';
 import { CirclePlus, MinusCircle } from 'lucide-react-native';
-import { Alert, FlatList, Image, Pressable } from 'react-native';
+import { Alert, FlatList, Image, Pressable, View } from 'react-native';
 
 export default function CartScreen() {
   const items = useCart((state) => state.items);
@@ -24,7 +24,6 @@ export default function CartScreen() {
 
     if (error) {
       console.log(error);
-      // TODO: handle error. The order is submitted, but payment failed.
     } else {
       Alert.alert('Your order is confirmed and will be shipped very soon!');
       resetCart();
@@ -94,14 +93,14 @@ export default function CartScreen() {
       keyExtractor={(item) => item.product.id.toString()}
       renderItem={({ item }) => (
         <HStack className='bg-white p-3 items-center'>
-          <Image
+          {item.product.image ? <Image
             source={{
-              uri: item.product.image || 'https://placehold.co//200x200',
+              uri: item.product.image,
             }}
-            className={item.product.image === undefined ? 'h-[80px] rounded-md aspect-[4/3] bg-gray-300' : 'h-[80px] rounded-md aspect-[4/3]'}
+            className='h-[80px] rounded-md aspect-[4/3]'
             alt={`${item.product.name}`}
             resizeMode="contain"
-          />
+          /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-4 bg-gray-300'></View>}
           <VStack space="sm" className='mr-auto'>
             <Heading size="md">{item.product.name}</Heading>
             <Text className="text-sm font-bold text-typography-700">
