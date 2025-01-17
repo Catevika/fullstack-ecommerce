@@ -18,7 +18,7 @@ const ProductListItem = ({ product }: { product: Product; }) => {
             alt={`${product.name}`}
             resizeMode="contain"
           /> : <View className='h-[80px] rounded-md aspect-[4/3] bg-gray-300'></View>}
-          <Text className="text-sm font-normal my-2 text-typography-700">
+          <Text isTruncated className="text-sm font-normal my-2 text-typography-700 max-w-[200px]">
             {product.name}
           </Text>
           <Heading size="md" className="mb-4">

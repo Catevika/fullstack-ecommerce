@@ -19,7 +19,7 @@ const ProductOrderItem = ({ productDetail }: { productDetail: ProductDetail; }) 
             resizeMode="contain"
           /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-4 bg-gray-300'></View>}
           <VStack space="sm" className='pl-4'>
-            <Text className="text-sm font-bold text-typography-700">
+            <Text isTruncated className="text-sm font-bold text-typography-700 max-w-[200px]">
               {productDetail.product.name}
             </Text>
             <Text className="text-sm font-bold text-typography-700">
