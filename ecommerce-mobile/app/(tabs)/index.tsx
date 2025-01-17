@@ -4,14 +4,14 @@ import { Text } from '@/components/ui/text';
 import "@/global.css";
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, FlatList, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Dimensions, FlatList, View } from 'react-native';
 
 export default function HomeScreen() {
-  const { width } = useWindowDimensions();
   const [numColumns, setNumColumns] = useState(2);
 
   useEffect(() => {
     const updateLayout = () => {
+      const { width } = Dimensions.get('window');
       width > 1200 ?
         setNumColumns(4) :
         width > 768 ?
@@ -22,7 +22,7 @@ export default function HomeScreen() {
     updateLayout();
     const subscription = Dimensions.addEventListener('change', updateLayout);
     return () => subscription.remove();
-  }, [width]);
+  }, []);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['products'],
@@ -37,17 +37,32 @@ export default function HomeScreen() {
     return <Text>Failed to fetch Products</Text>;
   }
 
-  return (
+  if (numColumns === 1) {
     <FlatList
       data={data}
-      columnWrapperClassName='gap-2'
       contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
-      key={numColumns}
-      numColumns={numColumns}
       renderItem={({ item }) => (
-        <ProductListItem product={item} />
+        <View>
+          {!item.name.includes('PRODUCT OUT OF STOCK') ? <ProductListItem key={item.id.toString()} product={item} /> : null}
+        </View>
       )}
       keyExtractor={item => item.id.toString()}
-    />
-  );
+    />;
+  } else {
+    return (
+      <FlatList
+        data={data}
+        numColumns={numColumns}
+        key={numColumns}
+        columnWrapperClassName='gap-2'
+        contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
+        renderItem={({ item }) => (
+          <View style={{ width: `${100 / numColumns}%` }}>
+            {!item.name.includes('PRODUCT OUT OF STOCK') ? <ProductListItem product={item} /> : null}
+          </View>
+        )}
+        keyExtractor={item => item.id.toString()}
+      />
+    );
+  }
 }
