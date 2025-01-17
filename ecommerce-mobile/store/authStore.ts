@@ -1,47 +1,39 @@
-import type { AuthState } from '@/types/types';
-import * as SecureStore from 'expo-secure-store';
+import type { AuthState, User } from '@/types/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { QueryClient } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-const initialState = {
+
+const queryClient = new QueryClient();
+
+const initialState: Omit<AuthState, 'setUser' | 'setToken' | 'logout'> = {
   user: null,
   token: null,
-  isHydrated: false,
-};
-
-const secureStorage = {
-  getItem: async (key: string) => {
-    return await SecureStore.getItemAsync(key);
-  },
-  setItem: async (key: string, value: string) => {
-    await SecureStore.setItemAsync(key, value);
-  },
-  removeItem: async (key: string) => {
-    await SecureStore.deleteItemAsync(key);
-  },
 };
 
 export const useAuth = create<AuthState>()(
   persist(
     (set) => ({
       ...initialState,
-      setUser: (user) => set({ user }),
-      setToken: (token) => set({ token }),
-      logout: () => {
+      setUser: (user: User | null) => set({ user }),
+      setToken: (token: string | null) => set({ token }),
+      logout: async () => {
         try {
-          useAuth.persist.clearStorage();
+          await queryClient.resetQueries();
           set(initialState);
+          await AsyncStorage.clear();
         } catch (error) {
           console.error('Error during logout:', error);
+          throw error;
         }
       },
-      setIsHydrated: (state) => set({ isHydrated: state }),
     }),
     {
       name: "auth-store",
-      storage: createJSONStorage(() => secureStorage),
-      onRehydrateStorage: () => (state) => {
-        state?.setIsHydrated(true);
-      },
+      storage: createJSONStorage(() => AsyncStorage)
     }
   )
 );
+
+export { queryClient };
+

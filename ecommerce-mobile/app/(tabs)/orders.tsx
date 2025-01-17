@@ -11,41 +11,49 @@ export default function OrdersScreen() {
   const token = useAuth.getState().token;
   const user = useAuth.getState().user;
 
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['orders', user?.id],
+    queryFn: listOrders,
+    enabled: !!token && !!user,
+    retry: 1,
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+    gcTime: 0
+  });
+
   if (!token || !user) {
     return (
       <View className="flex-1 items-center justify-center">
         <Text>Please login to view your orders</Text>
         <Link href='/login' asChild>
-          <Button>
+          <Button className='mt-2'>
             <ButtonText>login</ButtonText>
           </Button>
         </Link>
       </View>);
   }
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['orders'],
-    queryFn: listOrders,
-    enabled: !!token && !!user,
-    staleTime: 0,
-    refetchOnWindowFocus: true,
-  });
-
   if (isLoading) {
     return <ActivityIndicator />;
   }
 
   if (error) {
-    return <Text>Failed to fetch Orders</Text>;
+    return (
+      <View>
+        <Text>Failed to fetch Orders</Text>
+        <Button onPress={() => refetch()}>
+          <ButtonText>Retry</ButtonText>
+        </Button>
+      </View>
+    );
   }
 
   if (!data) {
-    return null;
+    return <Text>No orders found</Text>;
   }
 
   const ordersByUserId = data.filter(
-    (order: Order) => order.userId === user.id
-  );
+    (order: Order) => order.userId === user.id);
 
   return (
     <FlatList
@@ -55,6 +63,7 @@ export default function OrdersScreen() {
         <OrderListItem order={item} />
       )}
       keyExtractor={item => item.id.toString()}
+      ListEmptyComponent={<Text>No orders found</Text>}
     />
   );
 }

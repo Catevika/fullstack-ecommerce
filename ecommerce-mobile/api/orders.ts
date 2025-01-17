@@ -30,8 +30,6 @@ export async function listOrders() {
   const token = useAuth.getState().token;
   const user = useAuth.getState().user;
 
-  console.log('token from listOrders: ', token);
-
   if (!token || !user) {
     throw new Error('Something went wrong when logging in');
   }

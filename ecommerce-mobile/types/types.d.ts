@@ -33,11 +33,9 @@ export type User = {
 export type AuthState = {
   user: User | null;
   token: string | null;
-  isHydrated: boolean;
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
   logout: () => MutationFunction<unknown, void>;
-  setIsHydrated: (state: boolean) => void;
 };
 
 export type Order = {
