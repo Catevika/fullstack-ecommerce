@@ -9,7 +9,7 @@ import { VStack } from '@/components/ui/vstack';
 import { useCart } from '@/store/cartStore';
 import { useStripe } from '@stripe/stripe-react-native';
 import { useMutation } from '@tanstack/react-query';
-import { Link, Redirect, useRouter } from 'expo-router';
+import { Link, Redirect, Stack, useRouter } from 'expo-router';
 import { CirclePlus, MinusCircle } from 'lucide-react-native';
 import { Alert, FlatList, Image, Pressable, View } from 'react-native';
 
@@ -79,63 +79,65 @@ export default function CartScreen() {
   }
 
   return (
+    <View>
+      <Stack.Screen options={{ headerShown: true, title: 'Cart' }} />
+      <FlatList
+        ListHeaderComponent={() => (
+          <Link dismissTo href="/" asChild>
+            <Button variant='outline' className='mb-4'>
+              <ButtonText>Continue shopping</ButtonText>
+            </Button>
+          </Link>
+        )}
+        data={items}
+        contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
+        keyExtractor={(item) => item.product.id.toString()}
+        renderItem={({ item }) => (
+          <HStack className='bg-white p-3 items-center'>
+            {item.product.image ? <Image
+              source={{
+                uri: item.product.image,
+              }}
+              className='h-[80px] rounded-md aspect-[4/3]'
+              alt={`${item.product.name}`}
+              resizeMode="contain"
+            /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-1 mr-4 bg-gray-300'></View>}
+            <VStack space="sm" className='mr-auto'>
+              <Heading size="md">{item.product.name}</Heading>
+              <Text className="text-sm font-bold text-typography-700">
+                <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${item.product.price.toFixed(2)}
+              </Text>
+              <HStack space="sm" className='justify-start items-center'>
+                <Text className='text-sm font-normal text-typography-700'>Quantity: </Text>
+                <Pressable onPress={() => decreaseItemQuantity(item.product)}>
+                  <Icon as={MinusCircle} size="lg" />
+                </Pressable>
+                <Text className='p-2'>{item.quantity}</Text>
+                <Pressable onPress={() => increaseItemQuantity(item.product)}>
+                  <Icon as={CirclePlus} size="lg" />
+                </Pressable>
+              </HStack>
+              {items.length > 1 && item.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${(item.product.price * item.quantity).toFixed(2)}</Text> : null}
+            </VStack>
+          </HStack>
+        )}
+        ListFooterComponent={() => (
+          <VStack space="sm">
+            <Text className='p-4'>Total: </Text>
+            <Button variant='outline'>
+              <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2)}</ButtonText>
+            </Button>
 
-    <FlatList
-      ListHeaderComponent={() => (
-        <Link dismissTo href="/" asChild>
-          <Button variant='outline' className='mb-4'>
-            <ButtonText>Continue shopping</ButtonText>
-          </Button>
-        </Link>
-      )}
-      data={items}
-      contentContainerClassName='gap-2 max-w-[960px] mx-auto w-full p-3'
-      keyExtractor={(item) => item.product.id.toString()}
-      renderItem={({ item }) => (
-        <HStack className='bg-white p-3 items-center'>
-          {item.product.image ? <Image
-            source={{
-              uri: item.product.image,
-            }}
-            className='h-[80px] rounded-md aspect-[4/3]'
-            alt={`${item.product.name}`}
-            resizeMode="contain"
-          /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-4 bg-gray-300'></View>}
-          <VStack space="sm" className='mr-auto'>
-            <Heading size="md">{item.product.name}</Heading>
-            <Text className="text-sm font-bold text-typography-700">
-              <Text className="text-sm font-normal text-typography-700">Unit price:</Text> ${item.product.price.toFixed(2)}
-            </Text>
-            <HStack space="sm" className='justify-start items-center'>
-              <Text className='text-sm font-normal text-typography-700'>Quantity: </Text>
-              <Pressable onPress={() => decreaseItemQuantity(item.product)}>
-                <Icon as={MinusCircle} size="lg" />
-              </Pressable>
-              <Text className='p-2'>{item.quantity}</Text>
-              <Pressable onPress={() => increaseItemQuantity(item.product)}>
-                <Icon as={CirclePlus} size="lg" />
-              </Pressable>
-            </HStack>
-            {items.length > 1 && item.quantity > 1 ? <Text className="text-sm font-bold text-typography-700 mb-4"><Text className='text-sm font-bold text-typography-700'>Sub-total: </Text> ${(item.product.price * item.quantity).toFixed(2)}</Text> : null}
+            <Pressable
+              onPressIn={() => createOrderMutation.mutateAsync()}
+              className="bg-black p-3 rounded-md items-center"
+            >
+              <Text className="text-white font-bold">Checkout</Text>
+            </Pressable>
           </VStack>
-        </HStack>
-      )}
-      ListFooterComponent={() => (
-        <VStack space="sm">
-          <Text className='p-4'>Total: </Text>
-          <Button variant='outline'>
-            <ButtonText className="text-typography-900">${items.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2)}</ButtonText>
-          </Button>
-
-          <Pressable
-            onPressIn={() => createOrderMutation.mutateAsync()}
-            className="bg-black p-3 rounded-md items-center"
-          >
-            <Text className="text-white font-bold">Checkout</Text>
-          </Pressable>
-        </VStack>
-      )}
-    />
+        )}
+      />
+    </View>
   );
 }
 

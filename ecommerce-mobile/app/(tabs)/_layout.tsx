@@ -7,7 +7,7 @@ import { router, Tabs } from 'expo-router';
 import { ListIcon, LogOut, ShoppingCart, Store, User } from 'lucide-react-native';
 import { Alert, Pressable } from 'react-native';
 
-export default function TabLayout() {
+export default function TabsLayout() {
   const cartItemsNum = useCart((state) => state.items.map(item => item.quantity).reduce((a, b) => a + b, 0));
   const isLoggedIn = useAuth(s => !!s.token);
 

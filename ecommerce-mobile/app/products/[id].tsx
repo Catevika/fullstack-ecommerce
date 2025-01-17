@@ -45,7 +45,7 @@ const ProductDetailScreen = () => {
           className='h-[80px] rounded-md aspect-[4/3]'
           alt={`${product.name}`}
           resizeMode="contain"
-        /> : <View className='h-[80px] rounded-md aspect-[4/3] ml-4 bg-gray-300'></View>}
+        /> : <View className='h-[80px] rounded-md aspect-[4/3] mb-2 bg-gray-300'></View>}
         <Text className="text-sm font-normal mb-2 text-typography-700">
           {product.name}
         </Text>

@@ -8,7 +8,7 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { useAuth } from '@/store/authStore';
 import { useMutation } from '@tanstack/react-query';
-import { Redirect, Stack } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -58,7 +58,6 @@ export default function LoginScreen() {
 
   return (
     <View>
-      <Stack.Screen name='login' options={{ title: 'Sign Up / In' }} />
       <FormControl className="bg-white m-3 p-4 max-w-[960px] mx-auto border rounded-lg border-outline-300" isInvalid={(loginMutation.error || signupMutation.error) ? true : false}>
         <VStack space="xl">
           <Heading className="text-typography-900">Account details:</Heading>
