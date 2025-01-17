@@ -4,7 +4,7 @@ export async function listProducts() {
   if (!res.ok) {
     throw new Error('Failed to fetch products');
   }
-  const data = res.json();
+  const data = await res.json();
   return data;
 }
 
@@ -13,6 +13,6 @@ export async function fetchProductById(id: number) {
   if (!res.ok) {
     throw new Error('Failed to fetch product');
   }
-  const data = res.json();
+  const data = await res.json();
   return data;
 }
