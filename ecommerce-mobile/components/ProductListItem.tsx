@@ -9,7 +9,7 @@ const ProductListItem = ({ product }: { product: Product; }) => {
   return (
     <Link href={`/products/${product.id}`} asChild>
       <Pressable className="flex-1">
-        <Card className="p-5 rounded-lg flex-1">
+        <Card className="p-5 rounded-lg flex-1 items-center">
           {product.image ? <Image
             source={{
               uri: product.image,
@@ -21,7 +21,7 @@ const ProductListItem = ({ product }: { product: Product; }) => {
           <Text isTruncated className="text-sm font-normal my-2 text-typography-700 max-w-[200px]">
             {product.name}
           </Text>
-          <Heading size="md" className="mb-4">
+          <Heading size="md" className="mb-4 mt-auto">
             ${product.price.toFixed(2)}
           </Heading>
         </Card>
