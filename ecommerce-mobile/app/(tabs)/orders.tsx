@@ -2,7 +2,7 @@ import { listOrders } from '@/api/orders';
 import OrderListItem from '@/components/OrderListItem';
 import { Button, ButtonText } from '@/components/ui/button';
 import { useAuth } from '@/store/authStore';
-import type { Order } from '@/types/types';
+import type { Order, OrderComparison } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
@@ -52,8 +52,10 @@ export default function OrdersScreen() {
     return <Text>No orders found</Text>;
   }
 
-  const ordersByUserId = data.filter(
-    (order: Order) => order.userId === user.id);
+  const ordersByUserId: Order[] = data.filter(
+    (order: Order) => order.userId === user.id).sort(
+      (a: OrderComparison, b: OrderComparison) => b.id - a.id
+    );
 
   return (
     <FlatList

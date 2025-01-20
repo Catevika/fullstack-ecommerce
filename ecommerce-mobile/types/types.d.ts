@@ -55,3 +55,8 @@ export type ProductDetail = {
   };
   quantity: number;
 };
+
+type OrderComparison = {
+  id: number;
+  userId: number;
+};
