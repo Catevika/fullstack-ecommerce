@@ -1,15 +1,20 @@
+import { CustomAlert } from '@/components/CustomAlert';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useAuth } from '@/store/authStore';
 import { useCart } from '@/store/cartStore';
+import { resetPaymentSheetCustomer } from '@stripe/stripe-react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router, Tabs } from 'expo-router';
-import { ListIcon, LogOut, ShoppingCart, Store, User } from 'lucide-react-native';
-import { Alert, Pressable } from 'react-native';
+import { CheckCircleIcon, ListIcon, LogOut, ShoppingCart, Store, User } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable } from 'react-native';
 
 export default function TabsLayout() {
   const queryClient = useQueryClient();
   const cartItemsNum = useCart((state) => state.items.map(item => item.quantity).reduce((a, b) => a + b, 0));
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+
   const isLoggedIn = useAuth(s => !!s.token);
 
   const logout = useAuth(s => s.logout);
@@ -17,20 +22,27 @@ export default function TabsLayout() {
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
     onSuccess: async () => {
-      router.replace('/');
       queryClient.invalidateQueries();
       queryClient.clear();
-      Alert.alert('You successfully logged out!');
-    },
-    onError: (error) => {
-      console.log('Error logging out:', error);
-      Alert.alert('Error', 'Failed to logout');
+      setShowAlertDialog(true);
     }
   });
 
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
+  if (showAlertDialog) {
+    return (
+      <CustomAlert
+        icon={CheckCircleIcon}
+        iconClassName='color-green-600 background-white'
+        message="Successful logout"
+        showAlertDialog={showAlertDialog}
+        handleClose={() => {
+          setShowAlertDialog(false);
+          resetPaymentSheetCustomer();
+          router.replace('/');
+        }}
+      />
+    );
+  }
 
   return (
     <Tabs screenOptions={{
@@ -51,7 +63,7 @@ export default function TabsLayout() {
             <Icon as={User} color={'black'} />
           </Pressable>
         ) : (
-          <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={handleLogout}>
+          <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { logoutMutation.mutate(); }}>
             <Icon as={LogOut} color={'black'} />
           </Pressable>
         ), tabBarIcon: (currentColor) => <Icon as={Store} size='md' color={currentColor.color} />,

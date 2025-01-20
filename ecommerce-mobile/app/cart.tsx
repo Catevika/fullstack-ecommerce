@@ -1,33 +1,45 @@
 import { createOrder } from '@/api/orders';
 import { createPaymentIntent } from '@/api/stripe';
+import { CustomAlert } from '@/components/CustomAlert';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
+import { useAuth } from '@/store/authStore';
 import { useCart } from '@/store/cartStore';
-import { useStripe } from '@stripe/stripe-react-native';
+import { resetPaymentSheetCustomer, useStripe } from '@stripe/stripe-react-native';
 import { useMutation } from '@tanstack/react-query';
 import { Link, Redirect, Stack, useRouter } from 'expo-router';
-import { CirclePlus, MinusCircle } from 'lucide-react-native';
-import { Alert, FlatList, Image, Pressable, View } from 'react-native';
+import { CheckCircleIcon, CirclePlus, CircleX, MinusCircle } from 'lucide-react-native';
+import { useState } from 'react';
+import { FlatList, Image, Pressable, View } from 'react-native';
 
 export default function CartScreen() {
+  const token = useAuth?.getState().token;
+
   const items = useCart((state) => state.items);
   const resetCart = useCart((state) => state.resetCart);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [showAlertError, setShowAlertError] = useState(false);
+
 
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   const openPaymentSheet = async () => {
     const { error } = await presentPaymentSheet();
 
+
     if (error) {
-      console.log(error);
+      if (error.code === 'Canceled') {
+        setShowAlertError(true);
+      } else {
+        console.log(error);
+      }
     } else {
-      Alert.alert('Your order is confirmed and will be shipped very soon!');
       resetCart();
-      router.replace('/');
+      setShowAlertDialog(true);
     }
   };
 
@@ -54,7 +66,7 @@ export default function CartScreen() {
       }
       openPaymentSheet();
     },
-    onError: (error) => console.error(error),
+    onError: (error) => console.error(error)
   });
 
   const router = useRouter();
@@ -74,6 +86,36 @@ export default function CartScreen() {
   const increaseItemQuantity = useCart((state) => state.increaseItemQuantity);
   const decreaseItemQuantity = useCart((state) => state.decreaseItemQuantity);
 
+  if (showAlertError) {
+    return (
+      <CustomAlert
+        icon={CircleX}
+        iconClassName='color-red-600 background-white'
+        message="Payment cancelled. Retry"
+        showAlertError={showAlertError}
+        handleClose={() => {
+          setShowAlertError(false);
+          resetPaymentSheetCustomer();
+          router.replace('/');
+        }}
+      />
+    );
+  }
+  if (showAlertDialog) {
+    return (
+      <CustomAlert
+        icon={CheckCircleIcon}
+        iconClassName='color-green-600 background-white'
+        message="Order confirmed"
+        showAlertDialog={showAlertDialog}
+        handleClose={() => {
+          setShowAlertDialog(false);
+          router.replace('/');
+        }}
+      />
+    );
+  }
+
   if (items.length === 0) {
     return <Redirect href="/" />;
   }
@@ -81,7 +123,8 @@ export default function CartScreen() {
   return (
     <View>
       <Stack.Screen options={{ headerShown: true, title: 'Cart' }} />
-      <FlatList
+
+      {token ? <FlatList
         ListHeaderComponent={() => (
           <Link dismissTo href="/" asChild>
             <Button variant='outline' className='mb-4'>
@@ -136,8 +179,16 @@ export default function CartScreen() {
             </Pressable>
           </VStack>
         )}
-      />
-    </View>
+      /> : <View className="flex h-full justify-center items-center">
+        <Text>Please login to view your cart</Text>
+        <Link href='/login' asChild>
+          <Button className='mt-2'>
+            <ButtonText>login</ButtonText>
+          </Button>
+        </Link>
+      </View>
+      }
+    </View >
   );
 }
 

@@ -1,4 +1,5 @@
 import { login, signup } from '@/api/auth';
+import { CustomAlert } from '@/components/CustomAlert';
 import { Button, ButtonText } from '@/components/ui/button';
 import { FormControl } from '@/components/ui/form-control';
 import { Heading } from '@/components/ui/heading';
@@ -8,10 +9,10 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { useAuth } from '@/store/authStore';
 import { useMutation } from '@tanstack/react-query';
-import { Redirect } from 'expo-router';
-import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
-import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { router } from 'expo-router';
+import { CheckCircleIcon, EyeIcon, EyeOffIcon } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,9 +52,27 @@ export default function LoginScreen() {
     });
   };
 
-  if (isLoggedIn) {
-    Alert.alert('You successfully logged in!');
-    return <Redirect href="/" />;
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setShowAlertDialog(true);
+    }
+  }, [isLoggedIn]);
+
+  if (showAlertDialog) {
+    return (
+      <CustomAlert
+        icon={CheckCircleIcon}
+        iconClassName='color-green-600 background-white'
+        message="Successful login"
+        showAlertDialog={showAlertDialog}
+        handleClose={() => {
+          setShowAlertDialog(false);
+          router.replace('/');
+        }}
+      />
+    );
   }
 
   return (
