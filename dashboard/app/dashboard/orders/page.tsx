@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 export default async function OrdersPage() {
   const orders = await fetchOrders();
+  const sortedOrders = orders.sort((a: Order, b: Order) => b.id - a.id);
 
   return (
     <Card className='max-w-screen m-4'>
@@ -15,7 +16,7 @@ export default async function OrdersPage() {
         <Text className='font-bold'>Date</Text>
         <Text className='font-bold ml-auto'>Status</Text>
       </HStack>
-      {orders.map((order: Order) => (
+      {sortedOrders.map((order: Order) => (
         <Link href={`/dashboard/orders/${order.id}`} key={order.id}>
           <HStack key={order.id} className='p-4 border-b border-gray-200 gap-4'>
             <Text>{order.id}</Text>
