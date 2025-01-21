@@ -6,7 +6,7 @@ export default async function LoginLayout({ children }: { children: React.ReactN
   const token = await getToken();
 
   if (!!token) {
-    redirect('/dashboard');
+    redirect('/dashboard/products');
   }
 
   return <div>{children}</div>;
