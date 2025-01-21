@@ -58,13 +58,13 @@ export default function TabsLayout() {
       }
     }}>
       <Tabs.Screen name="index" options={{
-        headerLeft: () => !isLoggedIn ? (
-          <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
-            <Icon as={User} color={'black'} />
-          </Pressable>
-        ) : (
+        headerLeft: () => isLoggedIn ? (
           <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { logoutMutation.mutate(); }}>
             <Icon as={LogOut} color={'black'} />
+          </Pressable>
+        ) : (
+          <Pressable className='flex-row items-center gap-2 ml-4' onPressIn={() => { router.push('/login'); }}>
+            <Icon as={User} color={'black'} />
           </Pressable>
         ), tabBarIcon: (currentColor) => <Icon as={Store} size='md' color={currentColor.color} />,
         title: 'Shop',
