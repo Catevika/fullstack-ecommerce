@@ -1,4 +1,4 @@
-import { createOrder } from '@/api/orders';
+import { createOrder, updateOrderStatus } from '@/api/orders';
 import { createPaymentIntent } from '@/api/stripe';
 import { CustomAlert } from '@/components/CustomAlert';
 import { Button, ButtonText } from '@/components/ui/button';
@@ -21,19 +21,32 @@ export default function CartScreen() {
 
   const items = useCart((state) => state.items);
   const resetCart = useCart((state) => state.resetCart);
+
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
 
-
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const [orderId, setOrderId] = useState('');
+
+  const updateOrderStatusMutation = useMutation({
+    mutationFn: () => updateOrderStatus(Number(orderId), 'Canceled'),
+    onSuccess: () => {
+      resetCart();
+      resetPaymentSheetCustomer();
+      setShowAlertError(true);
+    },
+    onError: () => {
+      console.log('Error updating order status');
+    },
+  });
 
   const openPaymentSheet = async () => {
     const { error } = await presentPaymentSheet();
 
-
     if (error) {
       if (error.code === 'Canceled') {
-        setShowAlertError(true);
+        updateOrderStatusMutation.mutate();
       } else {
         console.log(error);
       }
@@ -78,6 +91,7 @@ export default function CartScreen() {
       price: item.product.price,
     }))),
     onSuccess: (data) => {
+      setOrderId(data.id);
       paymentIntentMutation.mutate({ orderId: data.id });
     },
     onError: (error) => console.error(error),
@@ -91,7 +105,7 @@ export default function CartScreen() {
       <CustomAlert
         icon={CircleX}
         iconClassName='color-red-600 background-white'
-        message="Payment cancelled. Retry"
+        message="Payment & order canceled"
         showAlertError={showAlertError}
         handleClose={() => {
           setShowAlertError(false);

@@ -71,3 +71,26 @@ export async function fetchOrderById(id: number) {
   const data = res.json();
   return data;
 }
+
+export async function updateOrderStatus(id: number, status: string) {
+  const token = useAuth.getState().token;
+
+  if (!token) {
+    throw new Error('Something went wrong when logging in');
+  }
+
+  const res = await fetch(`${API_URL}/orders/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update order status');
+  }
+  const data = res.json();
+  return data;
+}
