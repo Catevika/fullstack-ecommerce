@@ -66,7 +66,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## RESTful API
 
-![RESTful API](./APIScreenshot.png)
+![RESTful API](APIScreenshot.png)
 
 ### API - Technologies Used
 
@@ -101,7 +101,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## Mobile App
 
-![Mobile App](./EcommerceScreenshot.png)
+![Mobile App](EcommerceScreenshot.png)
 
 ### Mobile App - Technologies Used
 
@@ -151,7 +151,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## Dashboard
 
-![Dashboard](./DashboardScreenshot.png)
+![Dashboard](DashboardScreenshot.png)
 
 ### Dashboard - Technologies Used
 
