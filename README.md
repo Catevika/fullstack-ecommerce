@@ -70,12 +70,12 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ### API - Technologies Used
 
-- **Node.js**: a JavaScript runtime built on Chrome's V8 JavaScript engine.
-- **Express**: a fast, unopinionated, minimalist web framework for Node.js.
-- **Postgres**: a relational database management system.
-- **Drizzle ORM**: an ORM for Postgres.
-- **Zod**: a schema validation library.
-- **Genezio**: a cloud deployment platform for serverless functions.
+- [**Node.js**](https://nodejs.org/en/download): a free, open-source, cross-platform JavaScript runtime environment.
+- [**Express**](https://expressjs.com/): a fast, unopinionated, minimalist web framework for Node.js.
+- [**Drizzle ORM**](https://orm.drizzle.team/docs/get-started): a headless TypeScript ORM for Postgres.
+- [**Node Postgres**](https://node-postgres.com/): a relational database management system.
+- [**Zod**](https://zod.dev/?id=installation): a schema validation library.
+- [**Genezio**](https://genezio.com/docs/getting-started/): a cloud deployment platform for serverless functions.
 
 ### API - Installation instructions
 
@@ -105,16 +105,16 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ### Mobile App - Technologies Used
 
-- **React Native**: a JavaScript framework for building mobile applications.
-- **Expo**: a framework for building React Native applications.
-- **Expo Router**: a routing library for React Native applications.
-- **Expo EAS development build**: a cloud development build for Expo applications.
-- **TypeScript**: a strongly typed programming language that extends JavaScript.
-- **Nativewind**: a utility-first CSS framework - Tailwind for React Native.
-- **Gluestack-UI**: a component library for React Native.
-- **TanStack Query**: a state management library for React.
-- **Zustand**: a state management library for React for the local cart store.
-- **Stripe**: a payment processing platform.
+- [**React Native**](https://reactnative.dev/docs/environment-setup): a JavaScript framework for building mobile applications.
+- [**Expo**](https://docs.expo.dev/get-started/set-up-your-environment/): a framework for building React Native applications.
+- [**Expo Router**](https://docs.expo.dev/router/introduction/): a routing library for React Native applications.
+- [**Expo EAS development build**](https://docs.expo.dev/build/introduction/): a cloud development build for Expo applications.
+- [**TypeScript**](https://www.typescriptlang.org/): a strongly typed programming language that extends JavaScript.
+- [**Nativewind**](https://www.nativewind.dev/overview/): a utility-first CSS framework - Tailwind for React Native.
+- [**Gluestack-UI**](https://gluestack.io/): a component library for React Native.
+- [**TanStack Query**](https://tanstack.com/query/v5/docs/framework/react/overview): makes fetching, caching, synchronizing and updating server state in your web applications a breeze.
+- [**Zustand**](https://zustand.docs.pmnd.rs/getting-started/introduction): a state management library for React for the local cart store.
+- [**Stripe**](https://docs.stripe.com/payments/accept-a-payment?platform=react-native): a payment processing platform.
 
 ### Mobile App - Installation instructions
 
@@ -155,10 +155,10 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ### Dashboard - Technologies Used
 
-- **Nextjs**: a framework for building web applications.
-- **TanStack Query**: a state management library for React.
-- **Zustand**: a state management library for React.
-- **Genezio Cloud Deployment**: a deployment platform for Genezio.
+- [**Nextjs**](https://nextjs.org/docs/14/getting-started/installation): a framework for building web applications.
+- [**TanStack Query**](https://tanstack.com/query/v5/docs/framework/react/overview): makes fetching, caching, synchronizing and updating server state in your web applications a breeze.
+- [**Zustand**](https://zustand.docs.pmnd.rs/getting-started/introduction): a state management library for React for the local cart store.
+- [**Genezio**](https://genezio.com/docs/getting-started/): a cloud deployment platform for serverless functions.
 
 ### Dashboard - Installation instructions
 
