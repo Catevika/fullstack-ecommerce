@@ -66,7 +66,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## RESTful API
 
-![RESTful API](APIScreenshot.png)
+![RESTful API](APIScreenShot.png)
 
 ### API - Technologies Used
 
