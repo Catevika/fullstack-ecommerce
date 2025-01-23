@@ -67,6 +67,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 ## RESTful API
 
 ![RESTful API](APIScreenShot.png)
+_Credits: picture from Vadim Savin_
 
 ### API - Technologies Used
 
@@ -102,6 +103,7 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 ## Mobile App
 
 ![Mobile App](EcommerceScreenshot.png)
+_Credits: picture from Vadim Savin_
 
 ### Mobile App - Technologies Used
 
