@@ -66,6 +66,8 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## RESTful API
 
+![RESTful API](./APIScreenshot.png)
+
 ### API - Technologies Used
 
 - **Node.js**: a JavaScript runtime built on Chrome's V8 JavaScript engine.
@@ -98,6 +100,8 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 2. in the terminal, run `genezio deploy`
 
 ## Mobile App
+
+![Mobile App](./EcommerceScreenshot.png)
 
 ### Mobile App - Technologies Used
 
@@ -147,6 +151,8 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
 
 ## Dashboard
 
+![Dashboard](./DashboardScreenshot.png)
+
 ### Dashboard - Technologies Used
 
 - **Nextjs**: a framework for building web applications.
@@ -165,6 +171,8 @@ Clone the repository in your favorite IDE _as VSCode, IntelliJ IDEA, etc._:
    - `NEXT_PUBLIC_API_URL`: the URL of the deployed **Genezio API server**
    - `JWT_SECRET`: the secret key for **JWT** authentication, **same as the one in your API** `.env` **variables**
 4. Start the development server: `npm run dev`
+5. Follow the tutorial until the end.
+6. Once you have signed up, go to the **Genezio dashboard**, find the database, find the menu `view data` with a right-click on the three dots on the right, and then find the `users table` and update its **role** to `seller`.
 
 ### Dashboard - Deployment instructions
 
