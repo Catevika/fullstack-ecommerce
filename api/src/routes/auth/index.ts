@@ -44,7 +44,7 @@ router.post("/login", validateData(loginSchema), async (req, res) => {
       return;
     }
 
-    const matched = bcrypt.compare(password, user.password);
+    const matched = await bcrypt.compare(password, user.password);
     if (!matched) {
       res.status(401).send("Login failed");
       return;
