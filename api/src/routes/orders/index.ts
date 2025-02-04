@@ -9,6 +9,6 @@ const router = Router();
 router.post('/', verifyToken, validateData(insertOrderWithItemsSchema), createOrder as RequestHandler);
 router.get('/', verifyToken, listOrders);
 router.get('/:id', verifyToken, getOrderById);
-router.put('/:id', verifyToken, validateData(updateOrderSchema), updateOrder);
+router.put('/:id', verifyToken, validateData(updateOrderSchema), updateOrder as RequestHandler);
 
 export default router;

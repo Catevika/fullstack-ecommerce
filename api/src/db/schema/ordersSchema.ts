@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { productsTable } from './productsSchema.js';
 import { usersTable } from './usersSchema.js';
 
+const validOrderStatuses = ['New', 'Paid', 'Payment_failed', 'Shipped', 'Delivered'] as const;
+
 export const ordersTable = pgTable('orders', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   createdAt: timestamp().notNull().defaultNow(),
@@ -29,4 +31,6 @@ export const insertOrderWithItemsSchema = z.object({
   items: z.array(insertOrderItemSchema)
 });
 
-export const updateOrderSchema = createInsertSchema(ordersTable).pick({ status: true });
+export const updateOrderSchema = createInsertSchema(ordersTable).pick({ status: true }).extend({
+  status: z.enum(validOrderStatuses)
+});

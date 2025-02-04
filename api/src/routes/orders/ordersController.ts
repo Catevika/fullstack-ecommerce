@@ -9,7 +9,7 @@ export async function createOrder(req: Request, res: Response) {
 
     const userId = req.userId;
     if (!userId) {
-      return res.status(401).send({ error: "Invalid order data" });
+      return res.status(401).send({ error: "Access denied" });
     }
 
     const [newOrder] = await db.insert(ordersTable).values({ userId: Number(userId) }).returning();
@@ -59,6 +59,10 @@ export async function getOrderById(req: Request, res: Response) {
 export async function updateOrder(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
+
+    if (req.role !== 'seller') {
+      return res.status(403).json({ error: 'Only sellers can update order status' });
+    }
 
     const [updatedOrder] = await db.update(ordersTable).set(req.body).where(eq(ordersTable.id, id)).returning();
 

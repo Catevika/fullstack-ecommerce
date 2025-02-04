@@ -1,5 +1,6 @@
 import { doublePrecision, integer, pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from 'drizzle-zod';
+import { z } from 'zod';
 export const productsTable = pgTable('products', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
@@ -8,6 +9,14 @@ export const productsTable = pgTable('products', {
   price: doublePrecision().notNull(),
 });
 
-export const createProductSchema = createInsertSchema(productsTable);
+const baseProductSchema = createInsertSchema(productsTable);
 
-export const updateProductSchema = createInsertSchema(productsTable).partial();
+export const createProductSchema = baseProductSchema.extend({
+  name: z.string().min(1),
+  price: z.number().min(0.01)
+});
+
+export const updateProductSchema = baseProductSchema.partial().extend({
+  name: z.string().min(1).optional(),
+  price: z.number().min(0.01).optional()
+});

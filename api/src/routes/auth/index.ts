@@ -14,7 +14,7 @@ if (!secret) {
 
 const router = Router();
 
-const generateUserToken = (user: any) => {
+export const generateUserToken = (user: any) => {
   return jwt.sign({ userId: user.id, role: user.role }, secret, {
     expiresIn: '30d',
   });
